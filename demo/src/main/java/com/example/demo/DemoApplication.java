@@ -12,13 +12,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 //@ComponentScan
 @SpringBootApplication
 public class DemoApplication {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		ClassLoader classLoader = DemoApplication.class.getClassLoader();
 
 		File file = new File(Objects.requireNonNull(classLoader.getResource("newServiceAccountKey.json")).getFile());
@@ -36,6 +39,13 @@ public class DemoApplication {
 		}
 
 		SpringApplication.run(DemoApplication.class, args);
+
+		CRUDService crudService = new CRUDService();
+		CRUD existingCrud = crudService.getCRUD("user_11");
+		existingCrud.getRecordIds().add(4321);  // Добавление нового идентификатора
+		existingCrud.getRecordIds().remove(0);  // Удаление существующего идентификатора
+
+		crudService.updateCRUD(existingCrud);
 	}
 
 }

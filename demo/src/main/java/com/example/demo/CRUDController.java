@@ -5,6 +5,7 @@ import com.example.demo.CRUDService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -35,6 +36,15 @@ public class CRUDController {
         return crudService.deleteCRUD(documentId);
     }
 
+    @PostMapping("/addRecordId")
+    public String addRecordId(@RequestParam String documentId, @RequestParam int newRecordId) throws ExecutionException, InterruptedException {
+        return crudService.addRecordId(documentId, newRecordId);
+    }
+
+    @GetMapping("/getAll")
+    public List<CRUD> getAllCRUD() throws ExecutionException, InterruptedException {
+        return crudService.getAllCRUD();
+    }
     @GetMapping("test")
     public ResponseEntity<String> testGetEndpoint(){
         return ResponseEntity.ok("Test Get Endpoint is working");
